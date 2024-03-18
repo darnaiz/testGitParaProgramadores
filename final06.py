@@ -64,24 +64,46 @@ def actualizar_treeview(mitreview):
         print(fila)
         mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[4], fila[6]))
 
-    
+def seleccionar(tree):
+    id = str(entradaId.get())
+    suc = str(entrada1.get())
+    cod = str(entrada2.get())
+    desc = str(entrada3.get())
+    fing = str(entrada4.get())
+    frea = str(entrada5.get())
+    dias = str(entrada6.get())
 
-def selecionar(tree):
-    bus = str(entrada8.get())
-    cadena =bus
-    patron = "^[A-Z0-9a-záéíóú\s]*$" # coincidencia literal ^, a la z mayusculas y minusculas, acentos, Coincide con cualquier carácter de espacio en blanco
-    if re.match(patron, cadena):
-        print("Ingresando a buscar: ", bus) 
-        con = conexion()
-        cursor = con.cursor()
-        sql = "SELECT id, sucursal, codigo, descripcion, fecha_ingreso, fecha_realizacion, dias_atraso FROM solicitud WHERE sucursal = 'bus';"
-        datos = cursor.execute(sql)
-        resultado = datos.fetchall()
-        for fila in resultado:
-            print(fila)
-            mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[4], fila[6]))
-    else:
-        print("patron erroneo")
+    sql = "SELECT id, sucursal, codigo, descripcion, fecha_ingreso, fecha_realizacion, dias_atraso FROM solicitud WHERE "
+    sql = sql + " 1 = 1"
+
+    if id != "":
+        sql = sql + " AND ID="+id
+    if suc != "":
+        sql = sql + " AND sucursal LIKE '%"+suc+"%'"
+    if cod != "":
+        sql = sql + " AND codigo="+cod
+    if desc != "":
+        sql = sql + " AND descripcion LIKE '%"+desc+"%'"
+    if fing != "":
+        sql = sql + " AND fecha_ingreso='"+fing+"'"
+    if frea != "":
+        sql = sql + " AND fecha_realizacion='"+frea+"'"
+    if dias != "":
+        sql = sql + " AND dias_atraso="+dias
+
+    print("Ingresando a buscar: ", sql) 
+    con = conexion()
+    cursor = con.cursor()
+    datos = cursor.execute(sql)
+    resultado = datos.fetchall()
+    limpiarTree(tree)
+    for fila in resultado:
+        print(fila)
+        tree.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[4], fila[6]))
+
+def limpiarTree(tree):
+   for item in tree.get_children():
+      tree.delete(item)
 
 def limpiar(tree):
     entrada1.delete(0, END)
@@ -91,8 +113,7 @@ def limpiar(tree):
     entrada5.delete(0, END)
     entrada6.delete(0, END)
     entradaId.delete(0, END)
-    entrada8.delete(0,END)
-
+    
 def mostrar(tree):
     valor = tree.selection()
     print(valor) 
@@ -125,9 +146,6 @@ def mostrar(tree):
         entrada6.insert(0, str(fila[6]))
         entradaId.insert(0, str(fila[0]))
         
-
-
-
 def borrar(tree):
     valor = tree.selection()
     print(valor)  # ('I005',)
@@ -167,8 +185,6 @@ def modificar(tree):
     con.commit()
     actualizar_treeview(tree)
 
-
-
 # ##############################################
 # Controladpr - VISTA
 # ##############################################
@@ -193,10 +209,8 @@ fecha_realizacion = Label(root, text="fecha_realizacion")
 fecha_realizacion.grid(row=5, column=0, sticky=W)
 dias_atraso = Label(root, text="dias_atraso")
 dias_atraso.grid(row=6, column=0, sticky=W)
-buscar = Label(root, text="busqueda")
-buscar.grid(row=3, column=3, sticky=W)
 id = Label(root, text="ID")
-id.grid(row=1, column=3, sticky=W)
+id.grid(row=1, column=2, sticky=W)
 
 
 # Defino variables para tomar valores de campos de entrada
@@ -226,11 +240,7 @@ entrada6 = Entry(root, textvariable=f_val, width=w_ancho)
 entrada6.grid(row=6, column=1)
 
 entradaId = Entry(root, textvariable=g_val, width=w_ancho)
-entradaId.grid(row=1, column=2)
-
-entrada8 = Entry(root, textvariable=h_val, width=w_ancho)
-entrada8.grid(row=3, column=2)
-
+entradaId.grid(row=1, column=3)
 
 # --------------------------------------------------
 # TREEVIEW
@@ -278,14 +288,18 @@ boton_borrar.grid(row=7, column=1)
 boton_modificar = Button(root, text="Modificar", command=lambda: modificar(tree))
 boton_modificar.grid(row=7, column=2)
 
-boton_selecionar = Button(root, text="Buscar", command=lambda: selecionar(tree))
+boton_selecionar = Button(root, text="Buscar", command=lambda: seleccionar(tree))
 boton_selecionar.grid(row=7, column=3)
 
 boton_mostrar = Button(root, text="Mostrar", command=lambda: mostrar(tree))
 boton_mostrar.grid(row=7, column=4)
 
-boton_limpiar = Button(root, text="Limpiar", command=lambda: limpiar(tree))
+boton_limpiar = Button(root, text="Limpiar campos", command=lambda: limpiar(tree))
 boton_limpiar.grid(row=7, column=5)
+
+boton_limpiar = Button(root, text="Limpiar grilla", command=lambda: limpiarTree(tree))
+boton_limpiar.grid(row=7, column=6)
+
 
 actualizar_treeview(tree)
 
