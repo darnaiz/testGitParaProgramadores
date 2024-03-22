@@ -4,7 +4,6 @@ import sqlite3
 from tkinter import ttk
 import re
 
-
 def conexion():
     con = sqlite3.connect("zona_caba.db")
     return con
@@ -16,7 +15,6 @@ def crear_tabla(con):
     sql = "CREATE TABLE solicitud (id INTEGER PRIMARY KEY AUTOINCREMENT, sucursal TEXT, codigo INT,descripcion TEXT, fecha_ingreso TEXT, fecha_realizacion TEXT, dias_atraso INT);"
     cursor.execute(sql)
     con.commit()
-
 try:
     con = conexion()
     #crear_tabla(con)
