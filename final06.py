@@ -9,21 +9,19 @@ def conexion():
     con = sqlite3.connect("zona_caba.db")
     return con
 
-
 def crear_tabla(con):
     con = conexion()
     cursor = con.cursor()
+    # acá hay que poner el control de existencia de BD
     sql = "CREATE TABLE solicitud (id INTEGER PRIMARY KEY AUTOINCREMENT, sucursal TEXT, codigo INT,descripcion TEXT, fecha_ingreso TEXT, fecha_realizacion TEXT, dias_atraso INT);"
     cursor.execute(sql)
     con.commit()
-
 
 try:
     con = conexion()
     #crear_tabla(con)
 except:
     print("La Base de Datos se encuentra creada")
-
 
 def alta(sucursal, codigo, descripcion, fecha_ingreso, fecha_realizacion, dias_atraso, tree):
     cadena = sucursal
