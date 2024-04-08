@@ -4,7 +4,6 @@ import sqlite3
 from tkinter import ttk
 import re
 
-
 def conexion():
     con = sqlite3.connect("zona_caba.db")
     return con
@@ -17,13 +16,11 @@ def crear_tabla(con):
     cursor.execute(sql)
     con.commit()
 
-
 try:
     con = conexion()
     #crear_tabla(con)
 except:
     print("hay un error en la creación de la conexión")
-
 
 def alta(sucursal, codigo, descripcion, fecha_ingreso, fecha_realizacion, dias_atraso, tree):
     cadena = sucursal
@@ -48,7 +45,6 @@ def alta(sucursal, codigo, descripcion, fecha_ingreso, fecha_realizacion, dias_a
     else:
         print("Error en alta de la solicitud")
 
-
 def actualizar_treeview(mitreview):
     records = mitreview.get_children()
     for element in records:
@@ -63,7 +59,6 @@ def actualizar_treeview(mitreview):
     for fila in resultado:
         print(fila)
         mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3], fila[4], fila[4], fila[6]))
-
 
 def mostrar(tree):
     valor = tree.selection()
@@ -96,8 +91,6 @@ def mostrar(tree):
         entrada6.insert(0, str(fila[6]))
         entradaId.insert(0, str(fila[0]))
 
-
-
 def borrar(tree):
     valor = tree.selection()
     print(valor)  # ('I005',)
@@ -114,7 +107,6 @@ def borrar(tree):
     cursor.execute(sql, data)
     con.commit()
     tree.delete(valor)
-
 
 def modificar(tree):   # ingresar datos de la sucursal, codigo, descripcion, fecha_ingreso, fecha_realizacion, dias_atraso hecer un print para ver que datos me esta trayendo
     
@@ -173,8 +165,6 @@ fecha_realizacion.grid(row=5, column=0, sticky=W)
 dias_atraso = Label(root, text="dias_atraso")
 dias_atraso.grid(row=6, column=0, sticky=W)
 
-
-
 # Defino variables para tomar valores de campos de entrada
 a_val, b_val, c_val, d_val, e_val, f_val, g_val = (
     StringVar(),
@@ -216,7 +206,6 @@ tree.column("col3", width=200, minwidth=80)
 tree.column("col4", width=200, minwidth=80)
 tree.column("col5", width=200, minwidth=80)
 tree.column("col6", width=200, minwidth=80)
-
 
 tree.heading("#0", text="ID")
 tree.heading("col1", text="Sucursal")
@@ -266,7 +255,6 @@ boton_buscar.grid(row=7, column=3)
 
 boton_mostrar = Button(root, text="Mostrar", command=lambda: mostrar(tree))
 boton_mostrar.grid(row=7, column=4)
-
 
 actualizar_treeview(tree)
 
