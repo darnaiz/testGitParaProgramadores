@@ -12,6 +12,7 @@ def crear_tabla(con):
     con = conexion()
     cursor = con.cursor()
     # acá hay que poner el control de existencia de BD
+    
     sql = "CREATE TABLE solicitud (id INTEGER PRIMARY KEY AUTOINCREMENT, sucursal TEXT, codigo INT,descripcion TEXT, fecha_ingreso TEXT, fecha_realizacion TEXT, dias_atraso INT);"
     cursor.execute(sql)
     con.commit()
@@ -153,7 +154,7 @@ def borrar(tree):
     con = conexion()
     cursor = con.cursor()
     # mi_id = int(mi_id)
-    data = (mi_id,)
+    data = (mi_id)
     sql = "DELETE FROM solicitud WHERE id = ?;"
     cursor.execute(sql, data)
     con.commit()
