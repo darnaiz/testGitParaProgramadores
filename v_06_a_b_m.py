@@ -1,6 +1,5 @@
-# Este comentario es en el DEV02, linea 1
-# Comentario en el DEV02, linea 2
-# Este comentario es en el DEV02, linea 45
+# GENERAR UN
+# PULL REQUEST
 
 from tkinter import *
 from tkinter.messagebox import *
@@ -266,3 +265,6 @@ boton_mostrar.grid(row=7, column=4)
 actualizar_treeview(tree)
 
 root.mainloop()
+
+# GENERAR UN
+# PULL REQUEST
