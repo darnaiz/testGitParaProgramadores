@@ -1,6 +1,6 @@
-# ESTOS SON MIS COMENTARIOS
-# LOCALES
-# SOBRE DEV01
+# Este comentario es en el DEV01, linea 1
+# Comentario en el DEV01, linea 2
+# Este comentario es en el DEV01, linea 3
 
 from tkinter import *
 from tkinter.messagebox import *
