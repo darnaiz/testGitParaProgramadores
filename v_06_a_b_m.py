@@ -1,3 +1,7 @@
+# ESTOS SON MIS COMENTARIOS
+# LOCALES
+# SOBRE DEV01
+
 from tkinter import *
 from tkinter.messagebox import *
 import sqlite3
